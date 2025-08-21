@@ -27,8 +27,6 @@ jobs:
       - name: Create .env from secrets
         run: |
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "CRM_USERNAME=${{ secrets.CRM_USERNAME }}" >> .env
-          echo "CRM_PASSWORD=${{ secrets.CRM_PASSWORD }}" >> .env
 
       # Si necesitas levantar el front/back aquí, agrega steps (docker-compose, etc.)
       # - name: Start app
