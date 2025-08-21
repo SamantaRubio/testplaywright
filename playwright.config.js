@@ -5,7 +5,7 @@ dotenv.config();
 const BASE_URL = process.env.BASE_URL;
 
 export default defineConfig({
- // globalSetup: './global-setup.js',
+ //  globalSetup: './global-setup.js',
   testDir: "./tests",
   timeout: 30_000,
   expect: {
