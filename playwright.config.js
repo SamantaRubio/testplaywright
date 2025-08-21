@@ -48,16 +48,16 @@ export default defineConfig({
       name: "desktop-firefox",
       use: { ...devices["Desktop Firefox"] },
     },
-    // {
-    //   name: "desktop-webkit",
-    //   use: { ...devices["Desktop Safari"] }, // WebKit ~ Safari
-    // },
+    {
+      name: "desktop-webkit",
+      use: { ...devices["Desktop Safari"] }, // WebKit ~ Safari
+    },
 
-    // Mobile-first (IOS & Android)
-    // {
-    //   name: "mobile-iphone15",
-    //   use: { ...devices["iPhone 15 Pro"] },
-    // },
+   // Mobile-first (IOS & Android)
+    {
+      name: "mobile-iphone15",
+      use: { ...devices["iPhone 15 Pro"] },
+    },
     {
       name: "mobile-android",
       use: { ...devices["Pixel 7"] },
