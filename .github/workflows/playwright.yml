@@ -1,13 +1,13 @@
-name: E2E - Playwright
+name: Playwright Automation
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  e2e:
+  smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -26,29 +26,156 @@ jobs:
 
       - name: Create .env from secrets
         run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          # Agrega aquí otras variables si las necesitas:
+          # echo "API_KEY=${{ secrets.API_KEY }}" >> .env
 
-      # Si necesitas levantar el front/back aquí, agrega steps (docker-compose, etc.)
-      # - name: Start app
-      #   run: npm run start:test & npx wait-on http://localhost:3000
-
-      - name: Run tests
+      - name: Run smoke tests
         env:
           CI: true
-        run: npm test
+        run: npx playwright test tests/smoke
 
-      - name: Upload HTML report
+      - name: Upload HTML report (smoke)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-smoke
           path: playwright-report
           if-no-files-found: ignore
 
-      - name: Upload JUnit XML
+      - name: Upload JUnit XML (smoke)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: junit
+          name: junit-smoke
+          path: reports/junit/results.xml
+          if-no-files-found: ignore
+
+  performance:
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Run performance tests
+        env:
+          CI: true
+        run: npx playwright test tests/performance
+
+      - name: Upload HTML report (performance)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-performance
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JUnit XML (performance)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-performance
+          path: reports/junit/results.xml
+          if-no-files-found: ignore
+
+  regression:
+    needs: [smoke, performance]  # depende de ambos, como pediste
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Run regression tests
+        env:
+          CI: true
+        run: npx playwright test tests/regression
+
+      - name: Upload HTML report (regression)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-regression
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JUnit XML (regression)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-regression
+          path: reports/junit/results.xml
+          if-no-files-found: ignore
+
+  e2e:
+    needs: regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Run e2e tests
+        env:
+          CI: true
+        run: npx playwright test tests/e2e
+
+      - name: Upload HTML report (e2e)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-e2e
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JUnit XML (e2e)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-e2e
           path: reports/junit/results.xml
           if-no-files-found: ignore
