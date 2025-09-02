@@ -1,23 +1,15 @@
 name: Playwright Automation
 
 on:
-  pull_request:
-    branches: [main]         # PRs -> solo smoke (rápido)
   push:
-    branches: [main]         # Push a main -> todo el pipeline
-
-permissions:
-  contents: read
-
-concurrency:
-  group: playwright-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,147 +21,171 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Install deps
-        run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
 
-      - name: Install Playwright (browsers & deps)
-        uses: microsoft/playwright-github-action@v1
+      - name: Install deps & browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
 
       - name: Create .env from secrets
         run: |
-          {
-            echo "BASE_URL=${{ secrets.BASE_URL }}"
-            # Agrega aquí más secretos si los usas
-          } > .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          
 
-      - name: Run smoke tests (Chromium only)
+      - name: Run smoke tests
         env:
           CI: true
-        run: npx playwright test tests/smoke --project=chromium --reporter=html,line
+        run: npx playwright test tests/smoke
 
-      - name: Upload HTML report (smoke, on failure)
-        if: failure()
+      - name: Upload HTML report (smoke)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-smoke
           path: playwright-report
           if-no-files-found: ignore
-          retention-days: 7
 
-  regression:
+  performance:
+    # if: github.event_name == 'pull_request'
     needs: smoke
-    if: github.event_name == 'push'   # solo en push a main
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [chromium, firefox, webkit]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node (with npm cache)
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Install deps
-        run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
 
-      - name: Install Playwright
-        uses: microsoft/playwright-github-action@v1
+      - name: Install deps & browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
 
-      - name: Create .env
+      - name: Create .env from secrets
         run: |
           echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
 
-      - name: Run regression ${{ matrix.project }}
+      - name: Run performance tests
         env:
           CI: true
-        run: npx playwright test tests/regression --project=${{ matrix.project }} --reporter=html,junit,line --output=test-results/${{ matrix.project }}
+        run: npx playwright test tests/performance
 
-      - name: Upload reports (on failure)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: regression-${{ matrix.project }}-artifacts
-          path: |
-            playwright-report
-            test-results/${{ matrix.project }}
-          if-no-files-found: ignore
-          retention-days: 7
-
-  performance:
-    needs: smoke
-    if: github.event_name == 'push'   # solo en push a main
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-      - name: Install deps
-        run: npm ci
-      - name: Install Playwright
-        uses: microsoft/playwright-github-action@v1
-      - name: Create .env
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
-      - name: Run performance tests (Chromium)
-        env:
-          CI: true
-        run: npx playwright test tests/performance --project=chromium --reporter=html,line
-      - name: Upload report (on failure)
-        if: failure()
+      - name: Upload HTML report (performance)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-performance
           path: playwright-report
           if-no-files-found: ignore
-          retention-days: 7
 
-  e2e:
-    needs: [regression, performance]
-    if: github.event_name == 'push'   # solo en push a main
+  regression:
+    # if: github.event_name == 'pull_request'
+    needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [chromium, firefox, webkit]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node
+
+      - name: Setup Node (with npm cache)
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: package-lock.json
-      - name: Install deps
-        run: npm ci
-      - name: Install Playwright
-        uses: microsoft/playwright-github-action@v1
-      - name: Create .env
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
-      - name: Run E2E ${{ matrix.project }}
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install deps & browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Run regression tests
         env:
           CI: true
-        run: npx playwright test tests/e2e --project=${{ matrix.project }} --reporter=html,junit,line --output=test-results/${{ matrix.project }}
-      - name: Upload report (on failure)
-        if: failure()
+        run: npx playwright test tests/regression
+
+      - name: Upload HTML report (regression)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-e2e-${{ matrix.project }}
-          path: |
-            playwright-report
-            test-results/${{ matrix.project }}
+          name: playwright-report-regression
+          path: playwright-report
           if-no-files-found: ignore
-          retention-days: 7
+
+  e2e:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (with npm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install deps & browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Run e2e tests
+        env:
+          CI: true
+        run: npx playwright test tests/e2e
+
+      - name: Upload HTML report (e2e)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-e2e
+          path: playwright-report
+          if-no-files-found: ignore
