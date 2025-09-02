@@ -52,14 +52,6 @@ jobs:
           path: playwright-report
           if-no-files-found: ignore
 
-      - name: Upload JUnit XML (smoke)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-smoke
-          path: reports/junit/results.xml
-          if-no-files-found: ignore
-
   performance:
     needs: smoke
     runs-on: ubuntu-latest
@@ -103,14 +95,6 @@ jobs:
         with:
           name: playwright-report-performance
           path: playwright-report
-          if-no-files-found: ignore
-
-      - name: Upload JUnit XML (performance)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-performance
-          path: reports/junit/results.xml
           if-no-files-found: ignore
 
   regression:
@@ -158,14 +142,6 @@ jobs:
           path: playwright-report
           if-no-files-found: ignore
 
-      - name: Upload JUnit XML (regression)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-regression
-          path: reports/junit/results.xml
-          if-no-files-found: ignore
-
   e2e:
     needs: regression
     runs-on: ubuntu-latest
@@ -209,12 +185,4 @@ jobs:
         with:
           name: playwright-report-e2e
           path: playwright-report
-          if-no-files-found: ignore
-
-      - name: Upload JUnit XML (e2e)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-e2e
-          path: reports/junit/results.xml
           if-no-files-found: ignore
