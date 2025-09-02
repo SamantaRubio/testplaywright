@@ -15,11 +15,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
 
-  // Reports: console + html + junit
+  // Reports: console + html + json
   reporter: [
-    ["list"],
     ["html", { outputFolder: "playwright-report", open: "never" }],
-    ["junit", { outputFile: "reports/junit/results.xml" }],
+    ['json', { outputFile: 'playwright-summary.json' }],
   ],
 
   use: {
