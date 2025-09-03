@@ -62,7 +62,7 @@ jobs:
   
 
   performance:
-    # if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request'
     needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -116,7 +116,7 @@ jobs:
           if-no-files-found: ignore
 
   regression:
-    # if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request'
     needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
