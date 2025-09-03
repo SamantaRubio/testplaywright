@@ -253,14 +253,6 @@ jobs:
           path: artifacts/regression
         continue-on-error: true
 
-      # e2e es opcional: si existe lo descargamos, si no, seguimos
-      - name: Download e2e summary (optional)
-        uses: actions/download-artifact@v4
-        with:
-          name: results-e2e
-          path: artifacts/e2e
-        continue-on-error: true
-
       # === 2) Construimos resumen y detectamos si hubo fallos ===
       - name: Build summary (Node)
         id: summary
@@ -429,30 +421,7 @@ jobs:
       - name: Checkout (for helper script)
         uses: actions/checkout@v4
 
-      # === 1) Descargamos sólo summaries (results.json) de cada job ===
-      - name: Download smoke summary
-        uses: actions/download-artifact@v4
-        with:
-          name: results-smoke
-          path: artifacts/smoke
-        continue-on-error: true
-
-      - name: Download performance summary
-        uses: actions/download-artifact@v4
-        with:
-          name: results-performance
-          path: artifacts/performance
-        continue-on-error: true
-
-      - name: Download regression summary
-        uses: actions/download-artifact@v4
-        with:
-          name: results-regression
-          path: artifacts/regression
-        continue-on-error: true
-
-      # e2e es opcional: si existe lo descargamos, si no, seguimos
-      - name: Download e2e summary (optional)
+      - name: Download e2e summary 
         uses: actions/download-artifact@v4
         with:
           name: results-e2e
