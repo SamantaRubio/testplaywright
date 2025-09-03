@@ -224,7 +224,7 @@ jobs:
           if-no-files-found: ignore
           
   notify-slack-pr:
-    if: github.event_name == 'pull_request'
+    if: ${{ always() && github.event_name == 'pull_request' }}
     needs: [smoke, performance, regression]  
     runs-on: ubuntu-latest
     steps:
@@ -267,7 +267,7 @@ jobs:
             return null;
           }
 
-          const jobs = ['smoke','performance','regression','e2e'];
+          const jobs = ['smoke','performance','regression'];
           const perJob = {};
           const total = { passed:0, failed:0, flaky:0, skipped:0, durationMs:0, tests:0 };
 
@@ -406,12 +406,19 @@ jobs:
           done
 
   notify-slack-main:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: [smoke, e2e]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (for helper script)
         uses: actions/checkout@v4
+
+      - name: Download smoke summary
+        uses: actions/download-artifact@v4
+        with:
+          name: results-smoke
+          path: artifacts/smoke
+        continue-on-error: true
 
       - name: Download e2e summary 
         uses: actions/download-artifact@v4
@@ -434,7 +441,7 @@ jobs:
             return null;
           }
 
-          const jobs = ['smoke','performance','regression','e2e'];
+          const jobs = ['smoke','e2e'];
           const perJob = {};
           const total = { passed:0, failed:0, flaky:0, skipped:0, durationMs:0, tests:0 };
 
@@ -518,7 +525,15 @@ jobs:
 
       # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
 
-      - name: Download e2e report (on failure, optional)
+      - name: Download smoke report (on failure)
+        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-smoke
+          path: artifacts/smoke/report
+        continue-on-error: true
+
+      - name: Download e2e report (on failure)
         if: ${{ steps.summary.outputs.has_failures == 'true' }}
         uses: actions/download-artifact@v4
         with:
