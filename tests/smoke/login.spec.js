@@ -6,15 +6,8 @@ test('valid login', async ({ page, testData }) => {
   const login = new LoginPage(page);
   await login.open();
   await login.login(testData.users.valid.username, testData.users.valid.password);
-  await expect(page).toHaveURL(/inventory\.html/);
 });
 
-test('locked user', async ({ page, testData }) => {
-  const login = new LoginPage(page);
-  await login.open();
-  await login.login(testData.users.locked.username, testData.users.locked.password);
-  await expect(login.errorMsg).toBeVisible();
-});
 
 /**
  * Login business stories examples

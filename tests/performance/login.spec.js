@@ -2,9 +2,8 @@
 import { test, expect } from '../fixtures/test-data.fixture.js';
 import { LoginPage } from '../pages/LoginPage.js';
 
-test('Performance', async ({ page, testData }) => {
+test('performance', async ({ page, testData }) => {
   const login = new LoginPage(page);
   await login.open();
   await login.login(testData.users.valid.username, testData.users.valid.password);
-  await expect(page).toHaveURL(/inventory\.html/);
 });

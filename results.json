@@ -1,0 +1,668 @@
+{
+  "config": {
+    "configFile": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/playwright.config.js",
+    "rootDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ],
+      [
+        "line",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "mobile-android",
+        "name": "mobile-android",
+        "testDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.2",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e/login.spec.js",
+      "file": "e2e/login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E2E",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:15.074Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ce46b734337c02890a88-196733e2612d70a70459",
+          "file": "e2e/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "E2E",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-firefox",
+              "projectName": "desktop-firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3153,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:18.266Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ce46b734337c02890a88-f6a077325009bbbb977a",
+          "file": "e2e/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "E2E",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-android",
+              "projectName": "mobile-android",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2299,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:23.042Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ce46b734337c02890a88-285dd7112af4ec70b2da",
+          "file": "e2e/login.spec.js",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "performance/login.spec.js",
+      "file": "performance/login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "performance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2641,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:15.079Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e379989488ce2e31c342-f25ed8eb6d6f227432ae",
+          "file": "performance/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "performance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-firefox",
+              "projectName": "desktop-firefox",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 3178,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:18.270Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e379989488ce2e31c342-5a148b448c645f50f923",
+          "file": "performance/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "performance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-android",
+              "projectName": "mobile-android",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 3244,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:23.043Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e379989488ce2e31c342-a11317d0f74b6049d1d5",
+          "file": "performance/login.spec.js",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "regression/login.spec.js",
+      "file": "regression/login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "regression",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2653,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:15.089Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "94f191ad2a763152c9cb-6ad36effca694cac338c",
+          "file": "regression/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "regression",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-firefox",
+              "projectName": "desktop-firefox",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:19.169Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "94f191ad2a763152c9cb-21a300e4e258cf6a4eb0",
+          "file": "regression/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "regression",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-android",
+              "projectName": "mobile-android",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2372,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:23.969Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "94f191ad2a763152c9cb-38bdc1c96cb3de25eae1",
+          "file": "regression/login.spec.js",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "smoke/healthcheck.spec.js",
+      "file": "smoke/healthcheck.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Healthcheck",
+          "file": "smoke/healthcheck.spec.js",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "App renders and shows main container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1713,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-03T18:59:15.071Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "48dc95e94eaf3fc852ee-54c04ca881603f7ddabb",
+              "file": "smoke/healthcheck.spec.js",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "App renders and shows main container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1945,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-03T18:59:19.805Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "48dc95e94eaf3fc852ee-270e414f803a4677f17a",
+              "file": "smoke/healthcheck.spec.js",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "App renders and shows main container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "mobile-android",
+                  "projectName": "mobile-android",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1641,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-03T18:59:24.987Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "48dc95e94eaf3fc852ee-c7b0446e1771bbf20cf1",
+              "file": "smoke/healthcheck.spec.js",
+              "line": 4,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke/login.spec.js",
+      "file": "smoke/login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "valid login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2276,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:16.973Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7acac509b917cc00c2f5-e06d5c3e05a3be2b77da",
+          "file": "smoke/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "valid login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-firefox",
+              "projectName": "desktop-firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2377,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:21.944Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7acac509b917cc00c2f5-6f8ded7d91fd009058ea",
+          "file": "smoke/login.spec.js",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "valid login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-android",
+              "projectName": "mobile-android",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2549,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-09-03T18:59:25.474Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7acac509b917cc00c2f5-3e8da334a0529c46ecaa",
+          "file": "smoke/login.spec.js",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-09-03T18:59:14.682Z",
+    "duration": 13360.899,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -4,25 +4,9 @@ import { test as base } from '@playwright/test';
 // Datos de prueba centralizados
 const users = {
   valid: {
-    username: 'standard_user',
-    password: 'secret_sauce',
-  },
-  locked: {
-    username: 'locked_out_user',
-    password: 'secret_sauce',
-  },
-  problem: {
-    username: 'problem_user',
-    password: 'secret_sauce',
-  },
-  performance: {
-    username: 'performance_glitch_user',
-    password: 'secret_sauce',
-  },
-  invalid: {
-    username: 'fake_user',
-    password: 'wrong_pass',
-  },
+    username: 'admin',
+    password: 'It2ynl3id3aU0iVn1neTu',
+  }
 };
 
 // Fixture: inyecta testData en todos los tests que lo usen

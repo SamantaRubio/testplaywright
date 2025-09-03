@@ -35,7 +35,7 @@ export default defineConfig({
     viewport: { width: 1280, height: 800 },
     ignoreHTTPSErrors: true,
     // Attribute for data-test=""
-    testIdAttribute: "data-test",
+    testIdAttribute: "id",
   },
 
   projects: [
