@@ -374,14 +374,6 @@ jobs:
           path: artifacts/regression/report
         continue-on-error: true
 
-      - name: Download e2e report (on failure, optional)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-e2e
-          path: artifacts/e2e/report
-        continue-on-error: true
-
       - name: Zip reports (on failure)
         if: ${{ steps.summary.outputs.has_failures == 'true' }}
         run: |
@@ -525,29 +517,6 @@ jobs:
           | jq .
 
       # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
-      - name: Download smoke report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-smoke
-          path: artifacts/smoke/report
-        continue-on-error: true
-
-      - name: Download performance report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-performance
-          path: artifacts/performance/report
-        continue-on-error: true
-
-      - name: Download regression report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-regression
-          path: artifacts/regression/report
-        continue-on-error: true
 
       - name: Download e2e report (on failure, optional)
         if: ${{ steps.summary.outputs.has_failures == 'true' }}
