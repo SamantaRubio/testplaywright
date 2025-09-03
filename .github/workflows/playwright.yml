@@ -51,6 +51,15 @@ jobs:
           name: playwright-report-smoke
           path: playwright-report
           if-no-files-found: ignore
+  
+      - name: Upload JSON summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ github.job }}   # ⬅️ nombres: results-smoke, results-performance, etc.
+          path: results.json
+          if-no-files-found: ignore
+  
 
   performance:
     # if: github.event_name == 'pull_request'
@@ -96,6 +105,14 @@ jobs:
         with:
           name: playwright-report-performance
           path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JSON summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ github.job }} 
+          path: results.json
           if-no-files-found: ignore
 
   regression:
@@ -144,6 +161,14 @@ jobs:
           path: playwright-report
           if-no-files-found: ignore
 
+      - name: Upload JSON summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ github.job }} 
+          path: results.json
+          if-no-files-found: ignore
+
   e2e:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: smoke
@@ -188,6 +213,14 @@ jobs:
         with:
           name: playwright-report-e2e
           path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload JSON summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ github.job }} 
+          path: results.json
           if-no-files-found: ignore
           
   notify-slack:
