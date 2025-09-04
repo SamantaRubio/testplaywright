@@ -6,19 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
-permissions:
-  contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,36 +19,30 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Cache Playwright browsers
-        id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             pw-browsers-${{ runner.os }}-
 
-      - name: Install deps
-        run: npm ci --no-audit --no-fund
-
-      - name: Install Playwright browsers (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Install deps & browsers
         run: |
-          npx playwright install chromium firefox webkit
-          # Si realmente te faltan libs de sistema para WebKit:
-          # sudo npx playwright install-deps webkit
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
 
-      # 👉 NUEVO: deps de sistema para WebKit (solo si no había cache)
-      - name: Install system deps for WebKit (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Create .env from secrets
         run: |
-          sudo npx playwright install-deps webkit
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          
 
       - name: Run smoke tests
         env:
           CI: true
-        run: npx playwright test tests/smoke --reporter=line
+        run: npx playwright test tests/smoke
 
       - name: Upload HTML report (smoke)
         if: always()
@@ -66,22 +51,21 @@ jobs:
           name: playwright-report-smoke
           path: playwright-report
           if-no-files-found: ignore
-
+  
       - name: Upload JSON summary
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: results-${{ github.job }}
+          name: results-${{ github.job }}   
           path: results.json
           if-no-files-found: ignore
+  
 
   performance:
     if: github.event_name == 'pull_request'
     needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -91,29 +75,29 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Cache Playwright browsers
-        id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             pw-browsers-${{ runner.os }}-
 
-      - name: Install deps
-        run: npm ci --no-audit --no-fund
-
-      - name: Install Playwright browsers (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Install deps & browsers
         run: |
-          npx playwright install chromium firefox webkit
-          # sudo npx playwright install-deps webkit
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
 
       - name: Run performance tests
         env:
           CI: true
-        run: npx playwright test tests/performance --reporter=line
+        run: npx playwright test tests/performance
 
       - name: Upload HTML report (performance)
         if: always()
@@ -127,7 +111,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: results-${{ github.job }}
+          name: results-${{ github.job }} 
           path: results.json
           if-no-files-found: ignore
 
@@ -136,8 +120,6 @@ jobs:
     needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -147,29 +129,29 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Cache Playwright browsers
-        id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             pw-browsers-${{ runner.os }}-
 
-      - name: Install deps
-        run: npm ci --no-audit --no-fund
-
-      - name: Install Playwright browsers (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Install deps & browsers
         run: |
-          npx playwright install chromium firefox webkit
-          # sudo npx playwright install-deps webkit
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
+
+      - name: Create .env from secrets
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
 
       - name: Run regression tests
         env:
           CI: true
-        run: npx playwright test tests/regression --reporter=line
+        run: npx playwright test tests/regression
 
       - name: Upload HTML report (regression)
         if: always()
@@ -183,7 +165,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: results-${{ github.job }}
+          name: results-${{ github.job }} 
           path: results.json
           if-no-files-found: ignore
 
@@ -192,8 +174,6 @@ jobs:
     needs: smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -203,35 +183,29 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Cache Playwright browsers
-        id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-browsers-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             pw-browsers-${{ runner.os }}-
 
-      - name: Install deps
-        run: npm ci --no-audit --no-fund
-
-      - name: Install Playwright browsers (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Install deps & browsers
         run: |
-          npx playwright install chromium firefox webkit
-          # sudo npx playwright install-deps webkit
+          npm ci
+          npx playwright install --with-deps chromium firefox webkit
 
-      # 👉 NUEVO: deps de sistema para WebKit (solo si no había cache)
-      - name: Install system deps for WebKit (only on cache miss)
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+      - name: Create .env from secrets
         run: |
-          sudo npx playwright install-deps webkit
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
 
       - name: Run e2e tests
         env:
           CI: true
-        run: npx playwright test tests/e2e --reporter=line
+        run: npx playwright test tests/e2e
 
       - name: Upload HTML report (e2e)
         if: always()
@@ -245,10 +219,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: results-${{ github.job }}
+          name: results-${{ github.job }} 
           path: results.json
           if-no-files-found: ignore
-
+          
   notify-slack-pr:
     if: ${{ always() && github.event_name == 'pull_request' }}
     needs: [smoke, performance, regression]  
@@ -597,4 +571,3 @@ jobs:
                   -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
                   https://slack.com/api/files.upload | jq .
           done
-
