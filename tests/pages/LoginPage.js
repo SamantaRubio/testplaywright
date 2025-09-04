@@ -5,7 +5,7 @@ export class LoginPage extends BasePage {
   //Constructor: define all the page elements
   constructor(page) {
     super(page);
-    this.usernameInput = this.getByTestId('user_email');
+    this.usernameInput = this.getByTestId('user8email');
     this.passwordInput = this.getByTestId('user_password');
     this.loginBtn = page.getByRole('button', { name: 'Login' });
     this.dashboard = page.getByRole('heading', { name: 'Dashboard'});
