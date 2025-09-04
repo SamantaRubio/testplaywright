@@ -351,7 +351,7 @@ jobs:
 
       # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
       - name: Download smoke report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-smoke
@@ -359,7 +359,7 @@ jobs:
         continue-on-error: true
 
       - name: Download performance report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-performance
@@ -367,7 +367,7 @@ jobs:
         continue-on-error: true
 
       - name: Download regression report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-regression
@@ -375,7 +375,7 @@ jobs:
         continue-on-error: true
 
       - name: Zip reports (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         run: |
           set -e
           shopt -s nullglob
@@ -386,7 +386,7 @@ jobs:
           ls -la artifacts || true
 
       - name: Upload ZIPs to Slack (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
@@ -526,7 +526,7 @@ jobs:
       # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
 
       - name: Download smoke report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-smoke
@@ -534,7 +534,7 @@ jobs:
         continue-on-error: true
 
       - name: Download e2e report (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-e2e
@@ -542,7 +542,7 @@ jobs:
         continue-on-error: true
 
       - name: Zip reports (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         run: |
           set -e
           shopt -s nullglob
@@ -553,7 +553,7 @@ jobs:
           ls -la artifacts || true
 
       - name: Upload ZIPs to Slack (on failure)
-        if: ${{ steps.summary.outputs.has_failures == 'true' }}
+        if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
