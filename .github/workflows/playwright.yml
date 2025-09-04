@@ -225,52 +225,52 @@ jobs:
           
   notify-slack-pr:
     if: ${{ always() && github.event_name == 'pull_request' }}
-    needs: [smoke, performance, regression]  
+    needs: [smoke, performance, regression]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (for helper script)
         uses: actions/checkout@v4
-
-      # === 1) Descargamos sólo summaries (results.json) de cada job ===
+  
+      # 1) Descargamos summaries (results.json) de cada job
       - name: Download smoke summary
         uses: actions/download-artifact@v4
         with:
           name: results-smoke
           path: artifacts/smoke
         continue-on-error: true
-
+  
       - name: Download performance summary
         uses: actions/download-artifact@v4
         with:
           name: results-performance
           path: artifacts/performance
         continue-on-error: true
-
+  
       - name: Download regression summary
         uses: actions/download-artifact@v4
         with:
           name: results-regression
           path: artifacts/regression
         continue-on-error: true
-
-      # === 2) Construimos resumen y detectamos si hubo fallos ===
+  
+      # 2) Construimos resumen y detectamos si hubo fallos
       - name: Build summary (Node)
         id: summary
         run: |
           node - <<'NODE'
           const fs = require('fs');
           const path = require('path');
-
+  
           function readJsonSafe(p) {
             try { if (fs.existsSync(p)) return JSON.parse(fs.readFileSync(p,'utf8')); }
             catch(_) {}
             return null;
           }
-
+  
           const jobs = ['smoke','performance','regression'];
           const perJob = {};
           const total = { passed:0, failed:0, flaky:0, skipped:0, durationMs:0, tests:0 };
-
+  
           function walkSuite(suite, acc) {
             if (!suite) return;
             if (suite.specs) {
@@ -291,7 +291,7 @@ jobs:
             }
             for (const child of (suite.suites || [])) walkSuite(child, acc);
           }
-
+  
           for (const job of jobs) {
             const jsonPath = path.join('artifacts', job, 'results.json');
             const data = readJsonSafe(jsonPath);
@@ -306,14 +306,14 @@ jobs:
             total.tests  += acc.tests;
             total.durationMs += acc.durationMs;
           }
-
+  
           function fmt(ms){
             const s = Math.round(ms/1000);
             const m = Math.floor(s/60);
             const r = s % 60;
             return `${m}m ${r}s`;
           }
-
+  
           let lines = [];
           lines.push(`*Playwright summary – ${new Date().toISOString()}*`);
           lines.push(`*Total:* ${total.tests} tests | ✅ ${total.passed}  ❌ ${total.failed}  ~ ${total.flaky}  ⏭️ ${total.skipped} | ⏱ ${fmt(total.durationMs)}`);
@@ -321,17 +321,17 @@ jobs:
             const a = perJob[job];
             lines.push(`• *${job}*: ${a.tests} | ✅ ${a.passed}  ❌ ${a.failed}  ⏭️ ${a.skipped} | ⏱ ${fmt(a.durationMs)}`);
           }
-
+  
           const summary = lines.join('\n');
-          const hasFailures = total.failed > 0 ? 'true' : 'false';
-
+          const hasFailures = total.failed > 0;
+  
           // Export outputs
           const out = process.env.GITHUB_OUTPUT;
           fs.appendFileSync(out, `summary<<EOF\n${summary}\nEOF\n`);
           fs.appendFileSync(out, `has_failures=${hasFailures}\n`);
           NODE
-
-      # === 3) Publicamos SIEMPRE el resumen a Slack ===
+  
+      # 3) Publicamos SIEMPRE el resumen a Slack
       - name: Post summary to Slack
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -342,49 +342,53 @@ jobs:
             "channel": $channel,
             "text": $text
           }' > payload.json
-
+  
           curl -s -X POST "https://slack.com/api/chat.postMessage" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             -H "Content-type: application/json; charset=utf-8" \
             --data @payload.json \
           | jq .
-
-      # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
+  
+      # 4) Si hubo fallos: descargamos reports, zipeamos y subimos a Slack
       - name: Download smoke report (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-smoke
-          path: artifacts/smoke/report
+          path: artifacts/smoke
         continue-on-error: true
-
+  
       - name: Download performance report (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-performance
-          path: artifacts/performance/report
+          path: artifacts/performance
         continue-on-error: true
-
+  
       - name: Download regression report (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-regression
-          path: artifacts/regression/report
+          path: artifacts/regression
         continue-on-error: true
-
+  
       - name: Zip reports (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         run: |
           set -e
           shopt -s nullglob
-          for dir in artifacts/*/report; do
-            job=$(basename "$(dirname "$dir")")
-            (cd "$dir" && zip -r "../../report-$job.zip" . >/dev/null)
+          for jobdir in artifacts/*; do
+            job=$(basename "$jobdir")
+            if [ -z "$(ls -A "$jobdir" 2>/dev/null)" ]; then
+              echo "No files for $job, skipping zip"
+              continue
+            fi
+            (cd "$jobdir" && zip -r "../report-$job.zip" . >/dev/null)
           done
           ls -la artifacts || true
-
+  
       - name: Upload ZIPs to Slack (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         env:
@@ -394,9 +398,7 @@ jobs:
           set -e
           shopt -s nullglob
           for zip in artifacts/report-*.zip; do
-            job="${zip##*/}"
-            job="${job#report-}"
-            job="${job%.zip}"
+            job="${zip##*/}"; job="${job#report-}"; job="${job%.zip}"
             echo "Uploading $zip for job $job..."
             curl -s -F "file=@${zip}" \
                   -F "channels=${SLACK_CHANNEL_ID}" \
@@ -404,6 +406,7 @@ jobs:
                   -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
                   https://slack.com/api/files.upload | jq .
           done
+  
 
   notify-slack-main:
     if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
@@ -412,39 +415,38 @@ jobs:
     steps:
       - name: Checkout (for helper script)
         uses: actions/checkout@v4
-
+  
       - name: Download smoke summary
         uses: actions/download-artifact@v4
         with:
           name: results-smoke
           path: artifacts/smoke
         continue-on-error: true
-
-      - name: Download e2e summary 
+  
+      - name: Download e2e summary
         uses: actions/download-artifact@v4
         with:
           name: results-e2e
           path: artifacts/e2e
         continue-on-error: true
-
-      # === 2) Construimos resumen y detectamos si hubo fallos ===
+  
       - name: Build summary (Node)
         id: summary
         run: |
           node - <<'NODE'
           const fs = require('fs');
           const path = require('path');
-
+  
           function readJsonSafe(p) {
             try { if (fs.existsSync(p)) return JSON.parse(fs.readFileSync(p,'utf8')); }
             catch(_) {}
             return null;
           }
-
+  
           const jobs = ['smoke','e2e'];
           const perJob = {};
           const total = { passed:0, failed:0, flaky:0, skipped:0, durationMs:0, tests:0 };
-
+  
           function walkSuite(suite, acc) {
             if (!suite) return;
             if (suite.specs) {
@@ -465,7 +467,7 @@ jobs:
             }
             for (const child of (suite.suites || [])) walkSuite(child, acc);
           }
-
+  
           for (const job of jobs) {
             const jsonPath = path.join('artifacts', job, 'results.json');
             const data = readJsonSafe(jsonPath);
@@ -480,14 +482,14 @@ jobs:
             total.tests  += acc.tests;
             total.durationMs += acc.durationMs;
           }
-
+  
           function fmt(ms){
             const s = Math.round(ms/1000);
             const m = Math.floor(s/60);
             const r = s % 60;
             return `${m}m ${r}s`;
           }
-
+  
           let lines = [];
           lines.push(`*Playwright summary – ${new Date().toISOString()}*`);
           lines.push(`*Total:* ${total.tests} tests | ✅ ${total.passed}  ❌ ${total.failed}  ~ ${total.flaky}  ⏭️ ${total.skipped} | ⏱ ${fmt(total.durationMs)}`);
@@ -495,17 +497,15 @@ jobs:
             const a = perJob[job];
             lines.push(`• *${job}*: ${a.tests} | ✅ ${a.passed}  ❌ ${a.failed}  ⏭️ ${a.skipped} | ⏱ ${fmt(a.durationMs)}`);
           }
-
+  
           const summary = lines.join('\n');
-          const hasFailures = total.failed > 0 ? 'true' : 'false';
-
-          // Export outputs
+          const hasFailures = total.failed > 0;
+  
           const out = process.env.GITHUB_OUTPUT;
           fs.appendFileSync(out, `summary<<EOF\n${summary}\nEOF\n`);
           fs.appendFileSync(out, `has_failures=${hasFailures}\n`);
           NODE
-
-      # === 3) Publicamos SIEMPRE el resumen a Slack ===
+  
       - name: Post summary to Slack
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -516,42 +516,45 @@ jobs:
             "channel": $channel,
             "text": $text
           }' > payload.json
-
+  
           curl -s -X POST "https://slack.com/api/chat.postMessage" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             -H "Content-type: application/json; charset=utf-8" \
             --data @payload.json \
           | jq .
-
-      # === 4) Solo si hubo fallos: descargamos reports, zipeamos y subimos a Slack ===
-
+  
+      # Descarga y envío de reports SOLO si hubo fallos
       - name: Download smoke report (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-smoke
-          path: artifacts/smoke/report
+          path: artifacts/smoke
         continue-on-error: true
-
+  
       - name: Download e2e report (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-e2e
-          path: artifacts/e2e/report
+          path: artifacts/e2e
         continue-on-error: true
-
+  
       - name: Zip reports (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         run: |
           set -e
           shopt -s nullglob
-          for dir in artifacts/*/report; do
-            job=$(basename "$(dirname "$dir")")
-            (cd "$dir" && zip -r "../../report-$job.zip" . >/dev/null)
+          for jobdir in artifacts/*; do
+            job=$(basename "$jobdir")
+            if [ -z "$(ls -A "$jobdir" 2>/dev/null)" ]; then
+              echo "No files for $job, skipping zip"
+              continue
+            fi
+            (cd "$jobdir" && zip -r "../report-$job.zip" . >/dev/null)
           done
           ls -la artifacts || true
-
+  
       - name: Upload ZIPs to Slack (on failure)
         if: ${{ fromJSON(steps.summary.outputs.has_failures || 'false') }}
         env:
@@ -561,9 +564,7 @@ jobs:
           set -e
           shopt -s nullglob
           for zip in artifacts/report-*.zip; do
-            job="${zip##*/}"
-            job="${job#report-}"
-            job="${job%.zip}"
+            job="${zip##*/}"; job="${job#report-}"; job="${job%.zip}"
             echo "Uploading $zip for job $job..."
             curl -s -F "file=@${zip}" \
                   -F "channels=${SLACK_CHANNEL_ID}" \
@@ -571,3 +572,4 @@ jobs:
                   -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
                   https://slack.com/api/files.upload | jq .
           done
+            
