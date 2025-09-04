@@ -48,6 +48,12 @@ jobs:
           # Si realmente te faltan libs de sistema para WebKit:
           # sudo npx playwright install-deps webkit
 
+      # 👉 NUEVO: deps de sistema para WebKit (solo si no había cache)
+      - name: Install system deps for WebKit (only on cache miss)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo npx playwright install-deps webkit
+
       - name: Run smoke tests
         env:
           CI: true
@@ -215,6 +221,12 @@ jobs:
         run: |
           npx playwright install chromium firefox webkit
           # sudo npx playwright install-deps webkit
+
+      # 👉 NUEVO: deps de sistema para WebKit (solo si no había cache)
+      - name: Install system deps for WebKit (only on cache miss)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo npx playwright install-deps webkit
 
       - name: Run e2e tests
         env:
