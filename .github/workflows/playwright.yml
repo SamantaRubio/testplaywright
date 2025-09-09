@@ -395,6 +395,8 @@ jobs:
 
       - name: Build summary (Node)
         id: summary
+        env:
+          NEEDS_JSON: ${{ toJson(needs) }} 
         run: |
           node - <<'NODE'
           const fs = require('fs');
@@ -447,6 +449,18 @@ jobs:
           }
 
           const fmt = (ms)=>{ const s=Math.round(ms/1000); const m=Math.floor(s/60); return `${m}m ${s%60}s`; };
+
+          let runState = 'SUCCESS';
+          try {
+            const needs = JSON.parse(process.env.NEEDS_JSON || '{}');       // { job: {result: "success|failure|cancelled|skipped"} }
+            const results = Object.values(needs).map(x => (x.result||'').toUpperCase());
+            if (results.includes('CANCELLED')) runState = 'CANCELLED';
+            else if (results.includes('FAILURE')) runState = 'FAILED';
+          } catch (_) {}
+          // si no hubo failure/cancelled en needs pero fallaron tests, márcalo como FAILED
+          if (runState === 'SUCCESS' && total.failed > 0) runState = 'FAILED';
+      
+          const icon = runState === 'SUCCESS' ? '✅' : runState === 'FAILED' ? '❌' : '⚠️';
 
           let lines = [];
           lines.push(`*Playwright summary – ${new Date().toISOString()}*`);
