@@ -1,6 +1,8 @@
 import { BasePage } from './BasePage.js';
 import { expect } from '@playwright/test';
 
+//Cambio para PR
+
 export class LoginPage extends BasePage {
   //Constructor: define all the page elements
   constructor(page) {
