@@ -41,26 +41,54 @@ export default defineConfig({
   projects: [
     // Desktop
     {
+      name: "setup",
+      use: { 
+        ...devices["Desktop Chrome"]
+      },
+      testMatch: /.*\.setup\.js/,
+    },
+    {
       name: "desktop-chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { 
+        ...devices["Desktop Chrome"],
+        storageState: "storage/auth.json",
+      },
+      dependencies: ["setup"],
     },
     {
       name: "desktop-firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: { 
+        ...devices["Desktop Firefox"],
+        storageState: "storage/auth.json", 
+      },
+      dependencies: ["setup"],
     },
     {
       name: "desktop-webkit",
-      use: { ...devices["Desktop Safari"] }, // WebKit ~ Safari
+      use: { 
+        ...devices["Desktop Safari"],
+        storageState: "storage/auth.json",
+      },
+      dependencies: ["setup"],
     },
 
-   // Mobile-first (IOS & Android)
+   //Mobile (IOS & Android)
     {
       name: "mobile-iphone15",
-      use: { ...devices["iPhone 15 Pro"] },
+      use: { 
+        ...devices["iPhone 15 Pro"],
+        storageState: "storage/auth.json",
+      },
+      dependencies: ["setup"],
     },
     {
       name: "mobile-android",
-      use: { ...devices["Pixel 7"] },
+      use: { 
+        ...devices["Pixel 7"],
+        storageState: "storage/auth.json",
+      },
+      dependencies: ["setup"],
     },
+
   ],
 });

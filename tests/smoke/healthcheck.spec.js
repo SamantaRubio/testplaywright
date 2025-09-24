@@ -6,5 +6,3 @@ test.describe('Healthcheck', () => {
     await expect(page.getByTestId('new_user')).toBeVisible();
   });
 });
-
-//new_user
