@@ -72,7 +72,7 @@ export default defineConfig({
       dependencies: ["setup"],
     },
 
-   //Mobile (IOS & Android)
+  //  Mobile (IOS & Android)
     {
       name: "mobile-iphone15",
       use: { 
