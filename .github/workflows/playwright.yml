@@ -39,7 +39,10 @@ jobs:
           npx playwright install --with-deps chromium firefox webkit
 
       - name: Create .env from secrets
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}" >> .env
+          echo "ADMIN_PSW=${{ secrets.ADMIN_PSW }}" >> .env
 
       - name: Run smoke tests
         env:
@@ -92,7 +95,10 @@ jobs:
           npx playwright install --with-deps chromium firefox webkit
 
       - name: Create .env from secrets
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}" >> .env
+          echo "ADMIN_PSW=${{ secrets.ADMIN_PSW }}" >> .env
 
       - name: Run performance tests
         env:
@@ -145,7 +151,10 @@ jobs:
           npx playwright install --with-deps chromium firefox webkit
 
       - name: Create .env from secrets
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}" >> .env
+          echo "ADMIN_PSW=${{ secrets.ADMIN_PSW }}" >> .env
 
       - name: Run regression tests
         env:
@@ -198,7 +207,10 @@ jobs:
           npx playwright install --with-deps chromium firefox webkit
 
       - name: Create .env from secrets
-        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}" >> .env
+          echo "ADMIN_PSW=${{ secrets.ADMIN_PSW }}" >> .env
 
       - name: Run e2e tests
         env:
