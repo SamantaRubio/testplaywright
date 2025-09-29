@@ -70,38 +70,6 @@
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
         "timeout": 30000
-      },
-      {
-        "outputDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 3
-        },
-        "id": "desktop-firefox",
-        "name": "desktop-firefox",
-        "testDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
-        "timeout": 30000
-      },
-      {
-        "outputDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/test-results",
-        "repeatEach": 1,
-        "retries": 0,
-        "metadata": {
-          "actualWorkers": 3
-        },
-        "id": "mobile-android",
-        "name": "mobile-android",
-        "testDir": "/Users/Usuario/Documents/DirectCashGroup/testRepo/DirectCashGroupAutomation/tests",
-        "testIgnore": [],
-        "testMatch": [
-          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
-        ],
-        "timeout": 30000
       }
     ],
     "shard": null,
@@ -134,12 +102,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2833,
+                  "duration": 2651,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:36.389Z",
+                  "startTime": "2025-09-29T22:15:20.600Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -176,12 +144,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4174,
+                  "duration": 4112,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:41.064Z",
+                  "startTime": "2025-09-29T22:15:24.494Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -210,12 +178,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4456,
+                  "duration": 3636,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:45.380Z",
+                  "startTime": "2025-09-29T22:15:28.975Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -244,12 +212,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2915,
+                  "duration": 3366,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:49.839Z",
+                  "startTime": "2025-09-29T22:15:32.613Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -278,12 +246,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3642,
+                  "duration": 2850,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:52.756Z",
+                  "startTime": "2025-09-29T22:15:35.981Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -312,12 +280,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3932,
+                  "duration": 3874,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:56.399Z",
+                  "startTime": "2025-09-29T22:15:38.834Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -346,12 +314,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2680,
+                  "duration": 3412,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:56:00.333Z",
+                  "startTime": "2025-09-29T22:15:42.709Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -363,43 +331,68 @@
           "file": "regression/globalsearch.spec.js",
           "line": 15,
           "column": 3
-        },
+        }
+      ]
+    },
+    {
+      "title": "smoke/healthcheck.spec.js",
+      "file": "smoke/healthcheck.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
         {
-          "title": "Search for Task",
-          "ok": true,
-          "tags": [],
-          "tests": [
+          "title": "Healthcheck",
+          "file": "smoke/healthcheck.spec.js",
+          "line": 5,
+          "column": 6,
+          "specs": [
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
+              "title": "App renders and shows main container",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 3815,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:41.063Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1615,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-09-29T22:15:24.490Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
+              "id": "48dc95e94eaf3fc852ee-54c04ca881603f7ddabb",
+              "file": "smoke/healthcheck.spec.js",
+              "line": 6,
+              "column": 3
             }
-          ],
-          "id": "07d6665193af1c1aef2c-8e37844e8875846c258a",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke/login.spec.js",
+      "file": "smoke/login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
         {
-          "title": "Search for Opportunities",
+          "title": "valid login",
           "ok": true,
           "tags": [],
           "tests": [
@@ -407,189 +400,19 @@
               "timeout": 30000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
-                {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 5448,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:45.678Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-a28ba64e5838f25e5f29",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Accounts",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
-                {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 3012,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:51.128Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-abe984c264f23ded8797",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Contacts",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
-                {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 3070,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:54.141Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-b0a1a482076a93295604",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Email",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
-                {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 3181,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:57.213Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-4638c59296c22ffebfa4",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Phone",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "desktop-firefox",
-              "projectName": "desktop-firefox",
-              "results": [
-                {
-                  "workerIndex": 2,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2935,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:56:00.397Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-8df04522e18edc31d94a",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Task",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
+              "projectId": "desktop-chromium",
+              "projectName": "desktop-chromium",
               "results": [
                 {
                   "workerIndex": 3,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 3100,
+                  "duration": 3178,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-09-29T16:55:41.063Z",
+                  "startTime": "2025-09-29T22:15:24.493Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -597,189 +420,19 @@
               "status": "expected"
             }
           ],
-          "id": "07d6665193af1c1aef2c-29ead8afb95e5f62bdc9",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Opportunities",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
-              "results": [
-                {
-                  "workerIndex": 3,
-                  "parallelIndex": 2,
-                  "status": "passed",
-                  "duration": 4903,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:44.320Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-ef3bd0ac135a885276a8",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Accounts",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
-              "results": [
-                {
-                  "workerIndex": 3,
-                  "parallelIndex": 2,
-                  "status": "passed",
-                  "duration": 3577,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:49.225Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-f08bb828077729349891",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Contacts",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
-              "results": [
-                {
-                  "workerIndex": 3,
-                  "parallelIndex": 2,
-                  "status": "passed",
-                  "duration": 3564,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:52.804Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-7fc317a869a68ca22305",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Email",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
-              "results": [
-                {
-                  "workerIndex": 3,
-                  "parallelIndex": 2,
-                  "status": "passed",
-                  "duration": 3690,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:55:56.370Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-a3b099c95e7a06575a82",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
-        },
-        {
-          "title": "Search for Phone",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "mobile-android",
-              "projectName": "mobile-android",
-              "results": [
-                {
-                  "workerIndex": 3,
-                  "parallelIndex": 2,
-                  "status": "passed",
-                  "duration": 3656,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2025-09-29T16:56:00.062Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "07d6665193af1c1aef2c-44520b6ef1319fbffc21",
-          "file": "regression/globalsearch.spec.js",
-          "line": 15,
-          "column": 3
+          "id": "7acac509b917cc00c2f5-e06d5c3e05a3be2b77da",
+          "file": "smoke/login.spec.js",
+          "line": 6,
+          "column": 1
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-09-29T16:55:36.060Z",
-    "duration": 27677.647,
-    "expected": 19,
+    "startTime": "2025-09-29T22:15:20.270Z",
+    "duration": 25947.567,
+    "expected": 9,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
